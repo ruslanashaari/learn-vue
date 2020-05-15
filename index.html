@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.color-red { color: red; }
+		.color-blue { color: blue; }
+		.is-loading { background: red; }
+		.disabled { background: grey; }
+	</style>
+</head>
+<body>
+
+<div id="root">
+	<input type="text" id="input" v-model="message">
+
+	<p>The value of the input is {{ message }}</p>	
+
+	<!-- <li v-for="name in names">{{ name }}</li> -->
+	<li v-for="name in names" v-text="name">{{ name }}</li>
+
+	<input type="text" id="input-2" v-model="newName">
+	<!-- <input type="text" id="input-2" v-model="newName" v-on:keyUp="addName"> -->
+	<button @click="addName">Add Name</button>
+	<!-- <button v-on:click="addName">Add Name</button> -->
+
+	<!-- model binding -->
+	<!-- <button title="title">Hover Over Me</button> -->
+	<br>
+	<!-- <button v-bind:title="title">Hover Over Me</button> -->
+	<button :title="title">Hover Over Me</button>
+	<br>
+
+	<h1 :class="className">Hello World</h1>
+
+	<br><br>
+
+	<button :class="{ 'is-loading': isLoading }" @click="toggleClass">Toggle Me</button>
+
+	<br><br>
+	<button :disabled="isDisable" @click="toggleDisable">Disable Me</button>
+	<button :class="{ 'disabled': isDisable  }" @click="toggleDisable">Disable Me Grey</button>
+	<button @click="toggleEnable">Enable Him</button>
+
+	
+</div>
+
+<script type="text/javascript" src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+
+<script type="text/javascript">
+	// let data = {
+	// 	message: 'Hello World'
+	// };
+
+	// document.querySelector('#input').value = data.message;
+	var app = new Vue({
+		el: '#root',
+		data: {
+			newName: 	'',
+			message: 	'Hello World',
+			names: 		['John', 'Johnny', 'Jupiter', 'Maisaree'],
+			title: 		"Now the title is being set through Vue attribute class binding", 
+			className: 	"color-red",
+			isLoading: 	false,
+			isDisable:  false
+		},
+
+		methods: {
+			// addName : function() {
+			addName() {
+				this.names.push(this.newName),
+
+				this.newName = ''
+			},
+
+			toggleClass() {
+				this.isLoading = true
+			},
+
+			toggleDisable() {
+				this.isDisable = true
+			},
+
+			toggleEnable() {
+				this.isDisable = false
+			}
+		}
+
+		// mounted() {
+		// 	document.querySelector('#button').addEventListener('click', () => {
+		// 		let name = document.querySelector('#input-2');
+
+		// 		app.names.push(name.value);
+
+		// 		name.value = '';
+		// 	})
+		// }
+	})
+</script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+	<div id="root">
+		<h1>
+			{{ reversedMessage }}
+		</h1>
+
+		<br><br>
+
+		<input type="text" id="inputTask" v-model="newTask">
+		<button @click="addTask">Add Task</button>
+
+		<br><br>
+
+		<h1>All Tasks</h1>
+		<ul>
+			<li v-for="task in tasks" v-text="task.description"></li>
+		</ul>
+		<br><br>
+		<h1>Completed Tasks</h1>
+		<ul>
+			<!-- <li v-for="task in tasks" v-if="task.status" v-text="task.description"></li> -->
+			<li v-for="task in completedTasks">
+				<em v-text="task.description"></em>
+				<!-- <button @click="task.status = false">Set Incomplete</button> -->
+				<!-- <button @click="toggleIncomplete(task)">Set Incomplete</button> -->
+				<button @click="toggleStatus(task)">Set Incomplete</button>
+			</li>
+		</ul>
+		<br><br>
+		<h1>Incomplete Tasks</h1>
+		<ul>
+			<li v-for="task in incompleteTasks">
+				<em v-text="task.description"></em>
+				<button @click="toggleStatus(task)">Mark as Completed</button>
+			</li>
+		</ul>
+	</div>
+
+	<script type="text/javascript" src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#root',
+
+			data: {
+				message: 'Hello World',
+				tasks: [
+					{ description: 'Go to the store', status: true },
+					{ description: 'Go to the heaven', status: false },
+					{ description: 'Climb a mountain', status: true },
+					{ description: 'Buy a car', status: false },
+					{ description: 'Visit your mom', status: true },
+				],
+				newTask: ''
+			},
+
+			methods: {
+				addTask() {
+					this.tasks.push(
+						{ description: this.newTask, status: false }
+					),
+
+					this.newTask = ''
+				},
+
+				toggleIncomplete(task) {
+					task.status = false
+				},
+
+				toggleStatus(task) {
+					task.status = (task.status) ? false : true
+				}
+			},
+
+			computed: {
+				reversedMessage() {
+					return this.message.split('').reverse().join('');
+				},
+
+				completedTasks() {
+					return this.tasks.filter(task => task.status);
+
+					// this.tasks.filter(function (task) {
+					// 	return task.status;
+					// })
+				},
+
+				incompleteTasks() {
+					return this.tasks.filter(task => ! task.status);
+				}
+			}
+		})
+	</script>
+</body>
+</html>
